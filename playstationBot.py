@@ -17,9 +17,9 @@ hasNextPage = True
 
 while(hasNextPage):
 	#Get page number
-	pageNumber = driver.find_elements_by_css_selector("paginator-control__page-number--selected")
-	#print("---Saving page {0}---".format(pageNumber.get_property("innerText")))
-	print("---Saving page---")
+	pageNumber = driver.find_element_by_class_name("paginator-control__page-number--selected")
+	print("---Saving page {0}---".format(pageNumber.get_property("innerText")))
+	#print("---Saving page---")
 
 	#Create list of gameElements on page
 	gameElements = driver.find_elements_by_css_selector(".__desktop-presentation__grid-cell__base__0ba9f")
