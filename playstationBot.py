@@ -1,15 +1,22 @@
 import time
 import game as g
 from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
 
-# Setup URL
+def convertElementsToGames(elements):
+	for element in elements:
+	    saleStrings = element.get_property("outerText").split("\n")
+	    print(saleStrings)
+	    games.append(g.Game(saleStrings))
+
+def clickableNavButton(button):
+	buttonClasses = button.get_attribute( "class" ).split( ' ' )
+	clickable = "paginator-control__arrow-navigation--disabled" not in buttonClasses
+	print(clickable)
+	return clickable
+
+# Setup Driver and navigate to webpage
 driver = webdriver.Chrome('/Users/kennygrossman/Projects/Bots/Drivers/chromedriver')
-
-# Open webpage
-driver.get('https://store.playstation.com/en-us/grid/STORE-MSF77008-ALLDEALS/1?platform=ps4');
-time.sleep(2)
+driver.get('https://store.playstation.com/en-us/grid/STORE-MSF77008-SUMMERSALEGAMES/1')
 
 #Create empty list for game objects
 games = []
@@ -19,26 +26,17 @@ while(hasNextPage):
 	#Get page number
 	pageNumber = driver.find_element_by_class_name("paginator-control__page-number--selected")
 	print("---Saving page {0}---".format(pageNumber.get_property("innerText")))
-	#print("---Saving page---")
 
-	#Create list of gameElements on page
+	#Create list of web elements and covert into game objects
 	gameElements = driver.find_elements_by_css_selector(".__desktop-presentation__grid-cell__base__0ba9f")
-
-	#Create game object list
-	for game in gameElements:
-	    saleStrings = game.get_property("outerText").split("\n")
-	    print(saleStrings)
-	    games.append(g.Game(saleStrings))
+	convertElementsToGames(gameElements)
 
 	#Determine if next page button is enabled
 	nextButton = driver.find_element_by_class_name("paginator-control__next")
-	buttonClasses = nextButton.get_attribute( "class" ).split( ' ' )
-	hasNextPage = "paginator-control__arrow-navigation--disabled" not in buttonClasses
-	print(hasNextPage)
+	hasNextPage = clickableNavButton(nextButton)
 
 	if hasNextPage:
 		nextButton.click()
-		time.sleep(2)
 
 #Cycle through game object to verify print output
 for game in games:
