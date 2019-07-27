@@ -1,5 +1,7 @@
 import time
 import game as g
+import dbsetup
+from pathlib import Path
 from selenium import webdriver
 
 def convertElementsToGames(elements):
@@ -16,7 +18,7 @@ def clickableNavButton(button):
 
 # Setup Driver and navigate to webpage
 driver = webdriver.Chrome('/Users/kennygrossman/Projects/Bots/Drivers/chromedriver')
-driver.get('https://store.playstation.com/en-us/grid/STORE-MSF77008-SUMMERSALEGAMES/1')
+driver.get('https://store.playstation.com/en-us/grid/STORE-MSF77008-SUMMERSALEGAMES/14')
 
 #Create empty list for game objects
 games = []
@@ -38,7 +40,13 @@ while(hasNextPage):
 	if hasNextPage:
 		nextButton.click()
 
-#Cycle through game object to verify print output
+#Check if database exists and if not create database
+dbPath = Path('./game.db')
+if not dbPath.is_file():
+	print('Creating database...')
+	dbsetup.dbsetup()
+
+#Cycle through game objects and insert data into tables
 for game in games:
     game.print_game_string()
 
