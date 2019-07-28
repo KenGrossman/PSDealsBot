@@ -26,10 +26,10 @@ class Game:
 
         #Check if expected number of strings exist
         if len(saleStrings) > 4:
-            self.contentType = saleStrings[i]
+            self.type = saleStrings[i]
             i+=1
         else:
-            self.contentType = "NULL"
+            self.type = "NULL"
 
         #Set platform
         if saleStrings[i].startswith("PS"):
@@ -41,21 +41,21 @@ class Game:
         #Set oldPrice
         #We could instead make "Unavailable" values into NULL values for easier datawork later?
         if saleStrings[i].startswith("$") or saleStrings[i] == "Unavailable":
-            self.oldPrice = saleStrings[i]
+            self.oldPrice = saleStrings[i].replace('$', '')
             i+=1
         else:
             self.oldPrice = "NULL"
         
         #This index may not exist
         try:
-            self.newPrice = saleStrings[i]
+            self.newPrice = saleStrings[i].replace('$', '')
         except:
             self.newPrice = "NULL"
 
     def print_game_string(self):
-        print(self.discountString + ", " + self.title + ", " + self.contentType + ", " +
+        print(self.discountString + ", " + self.title + ", " + self.type + ", " +
          self.platform + ", " + self.newPrice + ", " + self.oldPrice)
 
     def print_test_game_string(self):
-        print(self.contentType + ", " + self.title + ", " + self.discountString + ", " +
+        print(self.type + ", " + self.title + ", " + self.discountString + ", " +
          self.platform + ", " + self.newPrice + ", " + self.oldPrice)
