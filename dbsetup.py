@@ -50,6 +50,5 @@ class dbsetup():
     	self.conn.execute(priceTableSQL)
 
     	#Commit changes and close connection
-    	# self.gamedb.commit()
-    	# self.gamedb.close()
+    	self.gamedb.close()
     	print('Tables created successfully')
