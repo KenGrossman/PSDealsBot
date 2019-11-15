@@ -5,16 +5,18 @@ import dbaccessor
 from pathlib import Path
 from selenium import webdriver
 
+
 def convertElementsToGames(elements, games):
 	for element in elements:
-	    saleStrings = element.get_property("outerText").split("\n")
-	    print(saleStrings)
+		saleStrings = element.get_property("outerText").split("\n")
+		print(saleStrings)
 
-	    game = g.Game(saleStrings)
-	    
-	    #Append game only if on sale
-	    if game.onSale:
-	    	games.append(game)
+	game = g.Game(saleStrings)
+
+	#Append game only if on sale
+	if game.onSale:
+		games.append(game)
+
 
 def connectToDatabase(games):
 	#Check if database exists and if not create database
@@ -33,11 +35,13 @@ def connectToDatabase(games):
 	for row in lowestEver:
 		print(row)
 
+
 def clickableNavButton(button):
 	buttonClasses = button.get_attribute( "class" ).split( ' ' )
 	clickable = "paginator-control__arrow-navigation--disabled" not in buttonClasses
 	print(clickable)
 	return clickable
+
 
 def mainLoop():
 	#Path to brower driver... make sure to place a driver into the folder
@@ -74,5 +78,6 @@ def mainLoop():
 	#Update database
 	connectToDatabase(games)
 
+
 if __name__== "__main__":
-  mainLoop()
+	mainLoop()
